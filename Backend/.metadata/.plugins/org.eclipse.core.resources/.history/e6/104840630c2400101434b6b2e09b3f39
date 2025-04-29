@@ -1,0 +1,11 @@
+package com.platfrom.repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.platfrom.model.UserAddress;
+
+public interface AddressRepository extends JpaRepository<UserAddress, Long> {
+	
+	
+}
+

@@ -30,7 +30,7 @@ public class Product {
 
     private String name;
     private String description;
-    private BigDecimal price;
+    private double price;
     private int stock;
 //    private String imageUrl;
     @Lob  // Consider renaming to 'image_data' for clarity
@@ -39,7 +39,7 @@ public class Product {
     private byte[] imageUrl;
 
     @ManyToOne
-//    @JsonIgnore
+     @JsonIgnore
     private Vendor vendor;
 
     @ManyToOne

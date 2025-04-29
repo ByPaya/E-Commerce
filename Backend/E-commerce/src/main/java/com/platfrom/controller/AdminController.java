@@ -39,9 +39,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.MediaTypeFactory;
 
-
-
-
 @RestController
 @RequestMapping("/api/admin")
 @RequiredArgsConstructor
@@ -121,7 +118,7 @@ public class AdminController {
             @RequestParam Long vendorId,
             @RequestParam String name,
             @RequestParam String description,
-            @RequestParam BigDecimal price,
+            @RequestParam double price,
             @RequestParam int stock,
             @RequestPart("image") MultipartFile imageFile
     ) throws IOException {

@@ -1,6 +1,7 @@
 package com.platfrom.controller;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -8,6 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,18 +21,13 @@ import org.springframework.web.multipart.MultipartFile;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
 
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Encoding;
-
+import com.platfrom.model.Product;
 import com.platfrom.model.Vendor;
+import com.platfrom.repository.ProductRepository;
 //import com.platfrom.model.VendorRegistrationDTO;
 import com.platfrom.repository.VendorRepository;
 import com.platfrom.service.VendorService;
 
-import java.io.ByteArrayInputStream;
-import java.net.URLConnection;
 
 @RestController
 @RequestMapping("/api/vendors")
@@ -38,6 +35,8 @@ import java.net.URLConnection;
 public class VendorController {
 	@Autowired
     private VendorService vendorService;
+	
+
 
 	 @PostMapping("/upload")
 	    public ResponseEntity<String> uploadVendorLicense(
@@ -88,8 +87,38 @@ public class VendorController {
 
     
     
-
     
+    // update vendor profile 
+    @PostMapping("/update/{id}")
+    public ResponseEntity<String> updateVendor(@PathVariable Long id,
+                                               @RequestParam String name,
+                                               @RequestParam String phone,
+                                               @RequestParam String password) {
+        boolean updated = vendorService.updateVendor(id, name, phone, password);
+        if (updated) {
+            return ResponseEntity.ok("Vendor updated");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Vendor not found");
+        }
+    }
+
+     
+    // Delete Vendor 
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deleteVendor(@PathVariable Long id) {
+        vendorService.deleteVendor(id);
+        return ResponseEntity.ok("Vendor deleted");
+    }
+
+       // get all vendor Details 
+    @GetMapping("/all")
+    public ResponseEntity<List<Vendor>> getAllVendors() {
+        List<Vendor> vendors = vendorService.getAllVendors();
+        return ResponseEntity.ok(vendors);
+    }
+
+     
+
     
     
 }

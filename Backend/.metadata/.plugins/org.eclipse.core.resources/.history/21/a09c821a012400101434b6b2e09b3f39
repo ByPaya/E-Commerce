@@ -1,0 +1,7 @@
+package com.platfrom.model;
+
+@Data
+public class CartRequest {
+    private Long userId;
+    private List<CartProductRequest> products;
+}

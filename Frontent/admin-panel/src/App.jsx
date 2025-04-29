@@ -9,6 +9,10 @@ import AddProduct from './pages/AddProduct';
 import CategoryProduct from './pages/CategoryProduct';
 import GetAllProducts from './pages/GetAllProducts';
 import HomePage from './pages/HomePage';
+import Register from './pages/User/Register';
+import Login from './pages/User/Login';
+import DashboardUser from './pages/User/DashboardUser';
+import Cart from './pages/User/Cart';
 // import test from './pages/test';
 
 export default function App() {
@@ -27,8 +31,12 @@ export default function App() {
       
       <Routes>
       {/* 🧱 Nest routes inside AdminLayout */}
+      <Route path='/home'  element={<HomePage />} />
+      <Route path='/cart' element={<Cart />} />
+      <Route path='/register' element ={<Register />} />
+      <Route path='/login' element ={<Login />} />
+        <Route path="/UserDash" element={< DashboardUser />} />
       <Route path="/" element={<AdminLayout />}>
-       <Route path='/home'  element={<HomePage />} />
         <Route path="vendors" element={<VendorApproval />} />
         <Route path="categories" element={<CreateCategory />} />
         <Route path="products" element={<AddProduct />} />

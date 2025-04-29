@@ -1,0 +1,51 @@
+package com.platfrom.model;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.boot.autoconfigure.amqp.RabbitConnectionDetails.Address;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Entity
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class Order {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+	
+	@ManyToOne
+	private User user;
+	
+	private LocalDateTime orderDate;
+	
+	private String  paymentStatus;
+	 
+	private String delivaryStatus;
+	
+	private Double totalAmount;
+	
+	@ManyToOne private Address deliveryAddress;
+
+	
+	 @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+	    private List<OrderItem> items = new ArrayList<OrderItem>();
+
+	    private LocalDateTime shippedDate;
+	    private LocalDateTime deliveredDate;
+	
+	
+}

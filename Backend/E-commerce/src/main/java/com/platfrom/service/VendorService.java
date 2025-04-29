@@ -2,6 +2,7 @@ package com.platfrom.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -35,6 +36,30 @@ public class VendorService {
 	    // Method to get vendor by id
 	    public Optional<Vendor> getVendorById(Long id) {
 	        return vendorRepository.findById(id);
+	    }
+	    
+	 // Update vendor details
+	    public boolean updateVendor(Long id, String name, String phone, String password) {
+	        Optional<Vendor> optionalVendor = vendorRepository.findById(id);
+	        if (optionalVendor.isPresent()) {
+	            Vendor vendor = optionalVendor.get();
+	            vendor.setName(name);
+	            vendor.setPhone(phone);
+	            vendor.setPassword(password);
+	            vendorRepository.save(vendor);
+	            return true;
+	        }
+	        return false;
+	    }
+	    
+	    // deleteVendor 
+	    public void deleteVendor(Long id) {
+	        vendorRepository.deleteById(id);
+	    }
+
+	    // Get all vendors
+	    public List<Vendor> getAllVendors() {
+	        return vendorRepository.findAll();
 	    }
 }
 

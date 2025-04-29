@@ -1,52 +1,64 @@
-//package com.platfrom.controller;
-//
-//import java.util.List;
-//import java.util.stream.Collectors;
-//
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.http.ResponseEntity;
-//import org.springframework.web.bind.annotation.CrossOrigin;
-//import org.springframework.web.bind.annotation.GetMapping;
-//import org.springframework.web.bind.annotation.RequestMapping;
-//import org.springframework.web.bind.annotation.RestController;
-//
-//import com.platfrom.model.Product;
-//import com.platfrom.model.ProductRequestDTO;
-//import com.platfrom.service.ProductService;
-//
-//
-//@RestController
-//@RequestMapping("/api/product")
-//@CrossOrigin("*")
-//public class ProductController {
-//	    @Autowired
-//	    private ProductService productService;
-//
-//	    @GetMapping("/getAllProductse")
-//	    public ResponseEntity<List<ProductRequestDTO>> getAllProducts() {
-//	        List<Product> products = productService.getAllProducts();
-//
-//	        List<ProductRequestDTO> productDTOs = products.stream().map(p -> {
-//	        	ProductRequestDTO dto = new ProductRequestDTO();
-//	            dto.setId(p.getId());
-//	            dto.setName(p.getName());
-//	            dto.setDescription(p.getDescription());
-//	            dto.setPrice(p.getPrice());
-//	            dto.setStock(p.getStock());
-//
-//	            // Assuming you have an image endpoint like /product/{id}/image
-//	            dto.setImageUrl("/api/admin/product/" + p.getId() + "/image");
-//
-//	            // Get vendor name (if vendor is not null)
-//	            dto.setVendorName(p.getVendor() != null ? p.getVendor().getName() : "N/A");
-//
-//	            // Get category name (if category is not null)
-//	            dto.setCategoryName(p.getCategory() != null ? p.getCategory().getName() : "N/A");
-//
-//	            return dto;
-//	        }).collect(Collectors.toList());
-//
-//	        return ResponseEntity.ok(productDTOs);
-//	    }
-//	}
-//
+package com.platfrom.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.platfrom.model.Product;
+import com.platfrom.repository.ProductRepository;
+import com.platfrom.service.AdminService;
+import com.platfrom.service.ProductService;
+
+import lombok.RequiredArgsConstructor;
+
+
+@RestController
+@RequestMapping("/api/product")
+@RequiredArgsConstructor
+@CrossOrigin("*")
+public class ProductController {
+
+	
+	@Autowired
+	private ProductService productService;
+
+	@GetMapping("/{vendorId}/products")
+	public ResponseEntity<List<Product>> getProductsByVendor(@PathVariable Long vendorId) {
+	    return ResponseEntity.ok(productService.getProductsByVendorId(vendorId));
+	}
+	
+	@PostMapping("/vendor/{vendorId}/add")
+	public ResponseEntity<Product> addProduct(@PathVariable Long vendorId, @RequestBody Product product) {
+	    return ResponseEntity.ok(productService.addProduct(vendorId, product));
+	}
+
+	@PutMapping("/{productId}")
+	public ResponseEntity<Product> updateProduct(@PathVariable Long productId, @RequestBody Product product) {
+	    return ResponseEntity.ok(productService.updateProduct(productId, product));
+	}
+
+	@DeleteMapping("/{productId}")
+	public ResponseEntity<String> deleteProduct(@PathVariable Long productId) {
+	    productService.deleteProduct(productId);
+	    return ResponseEntity.ok("Product deleted successfully");
+	}
+
+	@GetMapping("/{productId}")
+	public ResponseEntity<Product> getProductById(@PathVariable Long productId) {
+	    return productService.getProductById(productId)
+	            .map(ResponseEntity::ok)
+	            .orElse(ResponseEntity.notFound().build());
+	}
+
+
+}
