@@ -16,9 +16,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -61,12 +63,49 @@ public class AdminController {
         adminService.approveVendor(vendorId);
         return ResponseEntity.ok("Vendor approved and credentials sent.");
     }
-
+     
+ // Reject a vendor (delete the vendor record)
+    @DeleteMapping("/vendors/reject/{vendorId}")
+    public ResponseEntity<String> rejectVendor(@PathVariable Long vendorId) {
+        boolean isDeleted = adminService.rejectVendor(vendorId);
+        if (isDeleted) {
+            return ResponseEntity.ok("Vendor rejected and deleted successfully.");
+        } else {
+            return ResponseEntity.status(404).body("Vendor not found.");
+        }
+    }
+     
+    
+ //  Insert Category 
     @PostMapping("/categories")
     public ProductCategory createCategory(@RequestBody ProductCategory category, @RequestParam Long adminId) {
         return adminService.createProductCategory(category, adminId);
     }
 
+ //  Update category
+    @PutMapping("/categories/{categoryId}")
+    public ResponseEntity<ProductCategory> updateCategory(@PathVariable Long categoryId, @RequestBody ProductCategory updatedCategory) {
+        ProductCategory updated = adminService.updateCategory(categoryId, updatedCategory);
+        if (updated != null) {
+            return ResponseEntity.ok(updated);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    //  Delete category
+    @DeleteMapping("/categories/{categoryId}")
+    public ResponseEntity<String> deleteCategory(@PathVariable Long categoryId) {
+        boolean deleted = adminService.deleteCategory(categoryId);
+        if (deleted) {
+            return ResponseEntity.ok("Category deleted successfully.");
+        } else {
+            return ResponseEntity.status(404).body("Category not found.");
+        }
+    }
+    
+    
+    
 //    @GetMapping("/categories/{categoryId}/products")
 //    public List<Product> getProductsByCategory(@PathVariable Long categoryId) {
 //        return adminService.getProductsByCategory(categoryId);

@@ -1,0 +1,61 @@
+.navbar {
+    background-color: #111827; /* grey */
+    padding: 12px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: sans-serif;
+    position: relative;
+  }
+  
+  .navbar-logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #f4f00d;
+    margin-left: 50px;
+  }
+  
+  .navbar-search {
+    flex-grow: 1;
+    margin: 0 40px;
+  }
+  
+  .navbar-search input {
+    width: 50%;
+    padding: 8px 12px;
+    border: 1px solid #aaa;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+  
+  .navbar-user {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    position: relative; /* Needed to anchor absolute dropdown */
+  }
+  
+  /* This already exists but make sure it's correct */
+  .dropdown {
+    position: absolute;
+    top: 100px; /* directly below the user icon */
+    right: 50px;
+    background: white;
+    border: 1px solid #ccc;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    width: 140px;
+    z-index: 10;
+  }
+  
+  
+  .dropdown-item {
+    padding: 10px 16px;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  
+  .dropdown-item:hover {
+    background-color: #f0f0f0;
+  }
+  

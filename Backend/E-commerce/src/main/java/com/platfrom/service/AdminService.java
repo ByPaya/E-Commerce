@@ -2,6 +2,7 @@ package com.platfrom.service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -38,6 +39,16 @@ public class AdminService {
 
         // 🚀 TODO: Send credentials via email service
     }
+    
+ // Reject vendor (delete vendor)
+    public boolean rejectVendor(Long vendorId) {
+        Vendor vendor = vendorRepo.findById(vendorId).orElse(null);
+        if (vendor != null) {
+            vendorRepo.delete(vendor);  // delete the vendor from the database
+            return true;
+        }
+        return false;
+    }
 
     public ProductCategory createProductCategory(ProductCategory category, Long adminId) {
         Admin admin = adminRepo.findById(adminId)
@@ -50,6 +61,28 @@ public class AdminService {
         return productRepo.findByCategoryId(categoryId);
     }
     
+     //  update Category 
+    public ProductCategory updateCategory(Long categoryId, ProductCategory updatedCategory) {
+        Optional<ProductCategory> existing = categoryRepo.findById(categoryId);
+        if (existing.isPresent()) {
+            ProductCategory category = existing.get();
+            category.setName(updatedCategory.getName());
+            category.setDescription(updatedCategory.getDescription());
+            return categoryRepo.save(category);
+        }
+        return null;
+    }
+ 
+    
+    // Delete Category 
+    public boolean deleteCategory(Long categoryId) {
+        if (categoryRepo.existsById(categoryId)) {
+        	categoryRepo.deleteById(categoryId);
+            return true;
+        }
+        return false;
+    }
+
     
     public Product addProductAsAdmin(Long categoryId, Long vendorId, Product product) {
         ProductCategory category = categoryRepo.findById(categoryId)

@@ -116,6 +116,14 @@ public class VendorController {
         List<Vendor> vendors = vendorService.getAllVendors();
         return ResponseEntity.ok(vendors);
     }
+     
+    
+    /// Get Products By Vendors 
+    @GetMapping("/{vendorId}/products")
+    public ResponseEntity<List<Product>> getProductsByVendor(@PathVariable Long vendorId) {
+        List<Product> products = vendorService.getProductsByVendorId(vendorId);
+        return ResponseEntity.ok(products);
+    }
 
      
 

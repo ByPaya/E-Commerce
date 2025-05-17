@@ -13,7 +13,11 @@ import Register from './pages/User/Register';
 import Login from './pages/User/Login';
 import DashboardUser from './pages/User/DashboardUser';
 import Cart from './pages/User/Cart';
+import VendorLayout from './pages/Vendor/VendorLayout';
+import VendorProducts from './pages/Vendor/VendorProducts';
+import Index from './components/Index';
 // import test from './pages/test';
+
 
 export default function App() {
   return (
@@ -30,12 +34,15 @@ export default function App() {
       </Routes> */}
       
       <Routes>
+        
       {/* 🧱 Nest routes inside AdminLayout */}
+      <Route path='/index' element={<Index />} /> 
+ 
       <Route path='/home'  element={<HomePage />} />
       <Route path='/cart' element={<Cart />} />
       <Route path='/register' element ={<Register />} />
       <Route path='/login' element ={<Login />} />
-        <Route path="/UserDash" element={< DashboardUser />} />
+       <Route path="/UserDash" element={< DashboardUser />} />
       <Route path="/" element={<AdminLayout />}>
         <Route path="vendors" element={<VendorApproval />} />
         <Route path="categories" element={<CreateCategory />} />
@@ -44,6 +51,10 @@ export default function App() {
         <Route path="getAllProducts" element={<GetAllProducts />} />
         <Route path="/register-vendor" element={<VendorRegistration />} />
       </Route>
+   
+   <Route path='vendorProduts' element  ={<VendorProducts />}/>
+  
+
     </Routes>
 
     </div>

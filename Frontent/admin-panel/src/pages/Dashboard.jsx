@@ -22,14 +22,15 @@ import '../style/admindashboard.css'; // ✅ Import the CSS file
 export default function Sidebar() {
   return (
     <div className="sidebar">
+      
       <div className="sidebar-logo">SandBind</div>
 
       <nav className="sidebar-nav">
         
         <Link to="/vendors" className="sidebar-link">🧾 Vendor Approval</Link>
+        <Link to="/categories" className="sidebar-link">💰 Create a new     categories</Link>
         <Link to="/category-products" className="sidebar-link">📂 Categories</Link>
         <Link to="/products" className="sidebar-link">📦 Products</Link>
-        <Link to="/categories" className="sidebar-link">💰 Create a new categories</Link>
         <Link to="/getAllProducts" className="sidebar-link">📦 Get All Products</Link>
         <Link to="/users" className="sidebar-link">👥 Users</Link>
         <Link to="/orders" className="sidebar-link">🚚 Orders</Link>
